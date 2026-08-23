@@ -16,9 +16,12 @@
         joplin-server = nixosModule;
         default = nixosModule;
       };
-    } // flake-utils.lib.eachDefaultSystem (system:
+    } // flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
         joplinServerPkg = import ./package.nix { inherit pkgs; };
       in
       {
@@ -34,6 +37,16 @@
           default = flake-utils.lib.mkApp { drv = joplinServerPkg; };
         };
 
+        # Verification checks for `nix flake check`
+        checks = {
+          package = joplinServerPkg;
+        };
+      }
+    ) // flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
         # Development shell for `nix develop`
         devShells.default = pkgs.mkShell {
           name = "joplin-server-dev";
@@ -46,11 +59,6 @@
             echo "🚀 Joplin Server Flake Development Shell"
             echo "Commands: nixpkgs-fmt, statix"
           '';
-        };
-
-        # Verification checks for `nix flake check`
-        checks = {
-          package = joplinServerPkg;
         };
       }
     ) // {

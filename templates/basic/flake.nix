@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    joplin-server.url = "github:user/joplin-server-flake"; # Replace with repo path
+    joplin-server.url = "github:Apollo-sudo767/joplin-server-flake";
   };
 
   outputs = { self, nixpkgs, joplin-server }: {

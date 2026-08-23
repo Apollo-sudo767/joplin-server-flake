@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 
 let
   version = "3.7.1";
@@ -12,7 +12,8 @@ let
     finalImageTag = version;
   };
 
-in pkgs.stdenv.mkDerivation {
+in
+pkgs.stdenv.mkDerivation {
   __structuredAttrs = true;
   pname = "joplin-server";
   inherit version;

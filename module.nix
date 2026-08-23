@@ -54,7 +54,8 @@ let
   nginxHost = if cfg.nginx.hostName != null then cfg.nginx.hostName else (domainFromUrl cfg.baseUrl);
   caddyHost = if cfg.caddy.hostName != null then cfg.caddy.hostName else (domainFromUrl cfg.baseUrl);
 
-in {
+in
+{
   options.services.joplin-server = {
     enable = mkEnableOption "Joplin note synchronization server";
 
@@ -73,7 +74,7 @@ in {
 
     containerImage = mkOption {
       type = types.str;
-      default = "docker.io/joplin/server:v3.2.1-beta";
+      default = "docker.io/joplin/server:3.7.1";
       description = "OCI container image tag to use when useContainer is true.";
     };
 
@@ -131,7 +132,7 @@ in {
 
     extraEnv = mkOption {
       type = types.attrsOf types.str;
-      default = {};
+      default = { };
       example = { MAX_UPLOAD_SIZE = "500mb"; };
       description = "Additional environment variables passed to Joplin Server.";
     };
@@ -385,13 +386,13 @@ in {
     # System User / Group setup
     users.users.${cfg.user} = mkIf (cfg.user == "joplin-server") {
       isSystemUser = true;
-      group = cfg.group;
+      inherit (cfg) group;
       home = "/var/lib/joplin-server";
       createHome = true;
       description = "Joplin Server system user";
     };
 
-    users.groups.${cfg.group} = mkIf (cfg.group == "joplin-server") {};
+    users.groups.${cfg.group} = mkIf (cfg.group == "joplin-server") { };
 
     # Systemd Service implementation for native process execution
     systemd.services.joplin-server = mkIf (!cfg.useContainer) {
