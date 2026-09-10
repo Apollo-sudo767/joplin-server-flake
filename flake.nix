@@ -54,10 +54,13 @@
             nixpkgs-fmt
             statix
             git
+            jq
+            curl
+            nix-prefetch-docker
           ];
           shellHook = ''
             echo "🚀 Joplin Server Flake Development Shell"
-            echo "Commands: nixpkgs-fmt, statix"
+            echo "Commands: nixpkgs-fmt, statix, ./scripts/update.sh"
           '';
         };
       }

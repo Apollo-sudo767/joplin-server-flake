@@ -60,7 +60,7 @@ inputs = {
 | `services.joplin-server.port` | `port` | `22300` | Port for Joplin Server |
 | `services.joplin-server.host` | `str` | `"127.0.0.1"` | Listening host IP |
 | `services.joplin-server.useContainer` | `bool` | `false` | Toggle between native systemd process (`false`) or OCI Container (`true`) |
-| `services.joplin-server.containerImage` | `str` | `"docker.io/joplin/server:3.7.1"` | OCI container image tag |
+| `services.joplin-server.containerImage` | `str` | `"docker.io/joplin/server:3.7.2"` | OCI container image tag |
 | `services.joplin-server.database.type` | `enum` | `"postgres"` | Database type: `"postgres"` or `"sqlite"` |
 | `services.joplin-server.database.createLocally` | `bool` | `true` | Toggle automatic local PostgreSQL db & user creation |
 | `services.joplin-server.database.passwordFile` | `nullOr path` | `null` | Path to DB password file |
@@ -129,7 +129,17 @@ services.joplin-server = {
 - **Run interactive test CLI**: `nix run .#joplin-server`
 - **Check flake syntax & outputs**: `nix flake check`
 - **Enter dev environment**: `nix develop`
+- **Update Joplin Server & flake inputs**: `./scripts/update.sh`
 - **Initialize from template**: `nix flake init -t github:Apollo-sudo767/joplin-server-flake#postgres-nginx`
+
+### 🔄 Automated Updates
+
+This repository includes a scheduled **GitHub Actions workflow** (`.github/workflows/update.yml`) that:
+- Periodically checks Docker Hub for new Joplin Server releases.
+- Automatically calculates Nix image layer hashes with `nix-prefetch-docker`.
+- Updates `package.nix`, `module.nix`, and `flake.lock`.
+- Validates the updates with `nix flake check`.
+- Automatically opens a Pull Request for review and merge.
 
 ---
 

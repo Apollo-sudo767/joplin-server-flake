@@ -74,7 +74,7 @@ in
 
     containerImage = mkOption {
       type = types.str;
-      default = "docker.io/joplin/server:3.7.1";
+      default = "docker.io/joplin/server:3.7.2";
       description = "OCI container image tag to use when useContainer is true.";
     };
 
