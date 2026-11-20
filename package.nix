@@ -1,13 +1,13 @@
 { pkgs ? import <nixpkgs> { } }:
 
 let
-  version = "3.7.2";
+  version = "3.7.6";
 
   # Fetch official Joplin Server release layers
   image = pkgs.dockerTools.pullImage {
     imageName = "joplin/server";
-    imageDigest = "sha256:a7239534dfaafba31b0797f5ff3884b8bb794b8f5e8da9baa476c9e8ad9cca5c";
-    sha256 = "sha256-nIjGWSVeRn3X99yWY6N7Ok8jrCaBFkoxsVCZfSyrsPQ=";
+    imageDigest = "sha256:056c4c1fbbcf80ca2c76175a26773b0cda3d139be06d88b932870f4e73aef3c9";
+    sha256 = "sha256-fMb6fYEzyny9Hh+0WxQ1bfbT+eRFwfTh98GwSNhSPjI=";
     finalImageName = "joplin/server";
     finalImageTag = version;
   };
